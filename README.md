@@ -1,27 +1,73 @@
-﻿# Robotics Projects
+# Projets de Robotique — IUT Paris-Saclay
 
-Projects from the IUT de Cachan (Université Paris-Saclay) robotics competitions and SAE modules.
+Projets de robotique compétitive et SAE embarqué réalisés à l'IUT de Cachan (Université Paris-Saclay).
 
-## Contents
+---
 
-| File | Description |
-|------|-------------|
-| Rapport_Coupe_de_France_Robotique.pdf | Full SAE S4 report — Coupe de France de Robotique 2023 |
-| Rapport_Coupe_de_France_Robotique_CORRIGE.docx | Corrected Word source of the competition report |
-| obot_SAE_portfolio.pdf | SAE robot design portfolio (sensor card, PCB, tests) |
-| Carte_herkulex_WPT.pdf | Herkulex servo card & WPT (Wireless Power Transfer) infographic |
+## Coupe de France de Robotique 2023 — *The Cherry on the Cake*
 
-## About
+Conception complète d'un robot autonome capable d'assembler des gâteaux, déposer des cerises
+et marquer des points de façon autonome en 100 secondes de match.
 
-- **Coupe de France de Robotique 2023** — Theme: *The Cherry on the Cake*. Robot capable of assembling layered cakes, picking cherries and scoring autonomously.
-- **SAE Robot (Gamel Trophy)** — Autonomous line-following robot with custom PCB, chemical etching, and embedded C firmware.
-- **Herkulex Card** — Custom PCB driving Herkulex smart servo motors; includes WPT inductive charging infographic.
+**Équipe :** Thomas VELARD, Eaklim HOUR, Julien TERRIER, Kiritheepan ROBINSAN, Rémi WAN, Alpha DIALLO
 
-## Tech Stack
+### Architecture du système
 
-`txt
-Hardware : STM32F303K8, STM32F469 Discovery, Raspberry Pi 4, Herkulex DRS-0201
-Electronics: Altium Designer, PCB routing, soldering
-Software   : C/C++, Mbed, CAN bus, odometry, PID control
-Tools      : SolidWorks 3D, KeilStudio, CubeMX, QT editor
-`
+```
+Raspberry Pi 4  ──── Lidar R2000 (détection des adversaires)
+      │
+   Bus CAN
+ ┌────┼─────────────┬──────────────┐
+ │                  │              │
+Carte IHM      Carte Moteur   Carte Herkulex
+(Disco F469)   (STM32 F303K8) (STM32 F303K8)
+Écran tactile  Odométrie       Servos Herkulex
+Bluetooth      Asservissement  Aspiration cerises
+Carte SD       PID position    Barillet
+```
+
+### Fonctionnalités
+
+- Déplacement asservi par **odométrie** (encodeurs magnétiques en quadrature)
+- Assemblage de gâteaux légendaires (3 couches de couleurs dans un ordre précis)
+- Aspiration et dépôt de cerises via turbine + barillet contrôlés par servos Herkulex
+- Communication inter-robots et avec le panier par **Bluetooth**
+- Détection et évitement d'obstacles par **Lidar R2000**
+- Interface tactile (Disco F469NI) pour la sélection de stratégie via éditeur graphique (QT)
+
+### Stack technique
+
+```
+MCU       : STM32F303K8 · STM32F469I Discovery · Raspberry Pi 4
+Protocole : Bus CAN · UART (Herkulex) · Bluetooth · SPI
+Logiciel  : C/C++ · Mbed · éditeur de stratégie QT
+CAO       : Altium Designer (PCB) · SolidWorks (mécanique)
+Outils    : KeilStudio · CubeMX
+```
+
+---
+
+## SAE Robot — Gamel Trophy (suiveur de ligne autonome)
+
+Conception d'une carte capteur de A à Z : schéma, routage sous Altium, gravure chimique du PCB,
+soudage des composants et campagne de tests.
+
+```
+Étapes : Cahier des charges → Altium → Gravure PCB → Soudage → Tests
+Tests  : Continuité · Isolation · Statique · Fonctionnel · Programme
+```
+
+---
+
+## Documents
+
+| Fichier | Description |
+|---------|-------------|
+| `Rapport_Coupe_de_France_Robotique.pdf` | Rapport SAE S4 complet (60 pages) |
+| `Rapport_Coupe_de_France_Robotique_CORRIGE.docx` | Source Word corrigée du rapport |
+| `robot_SAE_portfolio.pdf` | Portfolio du robot SAE (carte capteur, PCB, tests) |
+| `Carte_herkulex_WPT.pdf` | Carte servos Herkulex + infographie WPT (transfert d'énergie sans fil) |
+
+---
+
+ROBINSAN Kiritheepan — Étudiant ingénieur à l'ENSEA
